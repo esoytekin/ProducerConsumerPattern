@@ -66,9 +66,13 @@ class ConsumerTask implements Runnable {
     public void run() {
 
         try {
-            int take = queue.take();
-            System.out.println(Thread.currentThread().getName()
-                    + " consuming: " + take);
+
+            while (true) {
+
+                int take = queue.take();
+                System.out.println(Thread.currentThread().getName()
+                        + " consuming: " + take);
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

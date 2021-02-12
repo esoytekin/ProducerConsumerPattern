@@ -73,6 +73,7 @@ class ConsumerTask implements Runnable {
                 if (take == 9) {
                     break;
                 }
+                Thread.sleep (1000);
                 System.out.println(Thread.currentThread().getName()
                         + " consuming: " + take);
             }

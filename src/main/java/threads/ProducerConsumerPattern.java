@@ -16,10 +16,18 @@ class ProducerConsumerPattern {
      */
     private final BlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
 
+    /**
+     * number of consumers.
+     */
+    private static final int N_CONSUMERS = 100;
+
     void start() {
 
         ex.execute(new ProducerTask(queue));
-        ex.execute(new ConsumerTask(queue));
+
+        for (int i = 0; i < N_CONSUMERS; i++) {
+            ex.execute(new ConsumerTask(queue));
+        }
         ex.shutdown();
     }
 

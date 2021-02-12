@@ -21,6 +21,11 @@ class ProducerConsumerPattern {
      */
     private static final int N_CONSUMERS = 100;
 
+    /**
+     * Poison pill to stop threads.
+     */
+    static final int POISON_PILL = -1;
+
     void start() {
 
         ex.execute(new ProducerTask(queue));
@@ -56,6 +61,8 @@ class ProducerTask implements Runnable {
             queue.add(i);
         }
 
+        // add poison pill to queue to notify consumer tasks
+        queue.add(ProducerConsumerPattern.POISON_PILL);
     }
 }
 
@@ -78,7 +85,9 @@ class ConsumerTask implements Runnable {
             while (true) {
 
                 int take = queue.take();
-                if (take == 9) {
+                if (take == ProducerConsumerPattern.POISON_PILL) {
+                    // put poison back for other consumers and exit
+                    queue.put(take);
                     break;
                 }
                 Thread.sleep (1000);

@@ -70,6 +70,9 @@ class ConsumerTask implements Runnable {
             while (true) {
 
                 int take = queue.take();
+                if (take == 9) {
+                    break;
+                }
                 System.out.println(Thread.currentThread().getName()
                         + " consuming: " + take);
             }
